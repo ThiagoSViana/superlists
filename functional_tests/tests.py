@@ -30,9 +30,10 @@ class NewVisitorTest(LiveServerTestCase):
 				time.sleep(0.5)
 
 	def test_can_start_a_list_for_one_user(self):
-		# Edith ouviu falar de uma nova aplicação online interessante
-		# para lista de tarefas. Ela decide verificar a homepage
-
+		# Edith ouviu falar que agora a aplicação online de lista de tarefas
+		# aceita definir prioridades nas tarefas do tipo baixa, média e alta
+		# Ela decide verificar a homepage
+		
 		self.browser.get(self.live_server_url)
 
 		# Ela percebe que o título da página e o cabeçalho mencionam
