@@ -33,16 +33,19 @@ class NewVisitorTest(LiveServerTestCase):
 		# Edith ouviu falar que agora a aplicação online de lista de tarefas
 		# aceita definir prioridades nas tarefas do tipo baixa, média e alta
 		# Ela decide verificar a homepage
-		
+
+		# Acessa a homepage
 		self.browser.get(self.live_server_url)
 
 		# Ela percebe que o título da página e o cabeçalho mencionam
 		# listas de tarefas com prioridade (priority to-do)
 
+		# Titulo e header
 		self.assertIn('priority to-do', self.browser.title)
 		header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
 		self.assertIn('priority to-do', header_text)
-		
+
+		# input do usuario
 		inputbox = self.browser.find_element(By.ID, 'id_new_item')
 		self.assertEqual(
 			inputbox.get_attribute('placeholder'),
@@ -54,6 +57,7 @@ class NewVisitorTest(LiveServerTestCase):
 		# Ela digita "Comprar anzol" em uma nova caixa de texto
 		# e assinala prioridade alta no campo de seleção de prioridades
 
+		# Adiciona nova atividade e atribui alta prioridade
 		inputbox.send_keys('Comprar anzol')
 		select = Select(selectbox)
 		select.select_by_visible_text('prioridade alta')
@@ -71,15 +75,19 @@ class NewVisitorTest(LiveServerTestCase):
     		  # e assinala prioridade baixa pois ela ainda tem cola suficiente
     	  	  # por algum tempo
 		
-		inputbox = self.browser.find_element(By.ID,'id_new_item')
-		inputbox.send_keys("Comprar cola instantânea")
-		select = Select(selectbox)
-		select.select_by_visible_text('prioridade baixa')
-		inputbox.send_keys(Keys.ENTER)
-		time.sleep(1)
+		# Adiciona outra atividade, com baixa prioridade
+	        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+	        inputbox.send_keys('Comprar cola instantânea')
+	        selectbox = self.browser.find_element(By.ID, 'id_priority')
+	        select = Select(selectbox)
+	        select.select_by_visible_text('prioridade baixa')
+	        inputbox.send_keys(Keys.ENTER)
+	        time.sleep(1)
 
 		# A página é atualizada novamente e agora mostra os dois
 		# itens em sua lista e as respectivas prioridades
+
+		# Exibe atividades listadas
 		self.wait_for_row_in_list_table('1: Comprar anzol - prioridade alta')
 		self.wait_for_row_in_list_table('2: Comprar cola instantânea - prioridade baixa')
 
@@ -87,7 +95,7 @@ class NewVisitorTest(LiveServerTestCase):
 		# ela nota que o site gerou um URL único para ela -- há um 
 		# pequeno texto explicativo para isso.
 
-	div = self.browser.find_element(By.ID, 'id_url_unique')
+		div = self.browser.find_element(By.ID, 'id_url_unique')
 		self.assertIn('/lists/1', div.text)
 
     # Ela acessa essa URL -- sua lista de tarefas continua lá.
